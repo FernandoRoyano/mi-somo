@@ -28,12 +28,9 @@ function MapComponent() {
   const [Map, setMap] = useState<React.ComponentType<any> | null>(null)
 
   useEffect(() => {
-    // Dynamically import react-leaflet and leaflet CSS
+    // Dynamically import react-leaflet
     import('react-leaflet').then((module) => {
       const { MapContainer, TileLayer, Marker, Popup } = module
-
-      // Import leaflet CSS
-      import('leaflet/dist/leaflet.css')
 
       // Fix default marker icon issue in Leaflet
       import('leaflet').then((L) => {
