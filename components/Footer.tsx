@@ -1,84 +1,97 @@
 'use client'
 
-import { Home, MapPin, Phone, Mail, Heart } from 'lucide-react'
+import { Waves, MapPin, Phone, Mail, Heart } from 'lucide-react'
 import { apartmentData } from '@/lib/data'
+
+const quickLinks = [
+  { name: 'Inicio', href: '#inicio' },
+  { name: 'Galería', href: '#galeria' },
+  { name: 'Servicios', href: '#servicios' },
+  { name: 'Ubicación', href: '#ubicacion' },
+  { name: 'Precios', href: '#precios' },
+  { name: 'Contacto', href: '#contacto' },
+]
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-slate-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer */}
-        <div className="py-12 grid md:grid-cols-3 gap-8">
+    <footer className="bg-surface-alt border-t border-border/50">
+      <div className="container-page py-fluid-md">
+        <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-8 lg:gap-12 mb-fluid-sm">
           {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Home className="w-6 h-6 text-ocean-400" />
-              <span className="font-bold text-xl">{apartmentData.name}</span>
+          <div className="space-y-4 max-w-md">
+            <div className="inline-flex items-center gap-2.5 font-display font-semibold text-fluid-2xl text-primary tracking-tight">
+              <span className="inline-flex w-9 h-9 rounded-full bg-primary text-accent items-center justify-center">
+                <Waves className="w-4 h-4" strokeWidth={2.2} />
+              </span>
+              {apartmentData.name}
             </div>
-            <p className="text-slate-400 mb-4">
+            <p className="text-muted text-fluid-sm leading-relaxed">
               {apartmentData.description}
             </p>
           </div>
 
-          {/* Contact Info */}
+          {/* Contacto */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Contacto</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-slate-400">
-                <MapPin className="w-5 h-5 text-ocean-400" />
+            <h3 className="font-display font-semibold text-fluid-base text-primary mb-4">
+              Contacto
+            </h3>
+            <ul className="space-y-3 text-fluid-sm">
+              <li className="flex items-start gap-3 text-muted">
+                <MapPin className="w-4 h-4 mt-0.5 text-ocean shrink-0" />
                 <span>
-                  {apartmentData.location.address}, {apartmentData.location.city}
+                  {apartmentData.location.address},<br />
+                  {apartmentData.location.city}
                 </span>
-              </div>
-              <a
-                href={`tel:${apartmentData.contact.phone}`}
-                className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
-              >
-                <Phone className="w-5 h-5 text-ocean-400" />
-                {apartmentData.contact.phone}
-              </a>
-              <a
-                href={`mailto:${apartmentData.contact.email}`}
-                className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
-              >
-                <Mail className="w-5 h-5 text-ocean-400" />
-                {apartmentData.contact.email}
-              </a>
-            </div>
+              </li>
+              <li>
+                <a
+                  href={`tel:${apartmentData.contact.phone}`}
+                  className="flex items-center gap-3 text-muted hover:text-primary transition-colors"
+                >
+                  <Phone className="w-4 h-4 text-ocean shrink-0" />
+                  {apartmentData.contact.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${apartmentData.contact.email}`}
+                  className="flex items-center gap-3 text-muted hover:text-primary transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-ocean shrink-0" />
+                  {apartmentData.contact.email}
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Enlaces rápidos</h3>
-            <div className="space-y-2">
-              <a href="#inicio" className="block text-slate-400 hover:text-white transition-colors">
-                Inicio
-              </a>
-              <a href="#galeria" className="block text-slate-400 hover:text-white transition-colors">
-                Galería
-              </a>
-              <a href="#servicios" className="block text-slate-400 hover:text-white transition-colors">
-                Servicios
-              </a>
-              <a href="#precios" className="block text-slate-400 hover:text-white transition-colors">
-                Precios
-              </a>
-              <a href="#contacto" className="block text-slate-400 hover:text-white transition-colors">
-                Contacto
-              </a>
-            </div>
+            <h3 className="font-display font-semibold text-fluid-base text-primary mb-4">
+              Navegar
+            </h3>
+            <ul className="space-y-2.5 text-fluid-sm">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className="text-muted hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="py-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">
+        <div className="pt-fluid-2xs border-t border-border/60 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-fluid-xs text-muted">
             © {currentYear} {apartmentData.name}. Todos los derechos reservados.
           </p>
-          <p className="text-slate-500 text-sm flex items-center gap-1">
-            Hecho con <Heart className="w-4 h-4 text-red-500" /> sin comisiones de plataformas
+          <p className="text-fluid-xs text-muted inline-flex items-center gap-1.5">
+            Hecho con <Heart className="w-3.5 h-3.5 text-accent fill-accent" /> sin comisiones de plataformas
           </p>
         </div>
       </div>

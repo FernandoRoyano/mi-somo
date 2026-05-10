@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, Home } from 'lucide-react'
+import { Menu, X, Waves } from 'lucide-react'
 import { apartmentData } from '@/lib/data'
+import { cn } from '@/lib/utils'
 
 const navigation = [
   { name: 'Inicio', href: '#inicio' },
@@ -15,79 +16,94 @@ const navigation = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white shadow-lg'
-          : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Logo */}
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={cn(
+          'absolute inset-0 transition-all duration-base ease-out',
+          scrolled
+            ? 'bg-surface/75 backdrop-blur-xl backdrop-saturate-150 border-b border-border/40 shadow-sm'
+            : 'bg-transparent'
+        )}
+      />
+      <nav className="relative container-page">
+        <div className="flex items-center justify-between h-16 md:h-20">
           <a
             href="#inicio"
-            className={`flex items-center gap-2 font-semibold text-lg transition-colors ${
-              isScrolled ? 'text-ocean-700' : 'text-white'
-            }`}
+            className={cn(
+              'inline-flex items-center gap-2.5 font-display font-semibold text-fluid-xl tracking-tight transition-colors duration-base',
+              scrolled ? 'text-primary' : 'text-white'
+            )}
           >
-            <Home className="w-6 h-6" />
+            <span
+              className={cn(
+                'inline-flex w-9 h-9 rounded-full items-center justify-center transition-colors',
+                scrolled ? 'bg-primary text-accent' : 'bg-white/15 text-white backdrop-blur'
+              )}
+            >
+              <Waves className="w-4 h-4" strokeWidth={2.2} />
+            </span>
             <span className="hidden sm:inline">{apartmentData.name}</span>
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-ocean-500 ${
-                  isScrolled ? 'text-slate-700' : 'text-white'
-                }`}
+                className={cn(
+                  'relative px-3.5 py-2 text-fluid-sm font-medium rounded-full transition-colors duration-fast',
+                  scrolled
+                    ? 'text-muted hover:text-primary hover:bg-surface-alt'
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                )}
               >
                 {item.name}
               </a>
             ))}
             <a
               href="#contacto"
-              className="bg-ocean-500 hover:bg-ocean-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
+              className={cn(
+                'ml-2 inline-flex items-center gap-1.5 px-5 py-2 text-fluid-sm font-medium rounded-full transition-all duration-base',
+                'bg-accent text-accent-fg hover:shadow-glow hover:-translate-y-0.5 active:scale-95'
+              )}
             >
-              Reservar
+              Reservar →
             </a>
           </div>
 
-          {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-2 rounded-lg transition-colors ${
-              isScrolled ? 'text-slate-700' : 'text-white'
-            }`}
+            aria-label="Abrir menú"
+            aria-expanded={isOpen}
+            className={cn(
+              'md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors',
+              scrolled
+                ? 'text-primary hover:bg-surface-alt'
+                : 'text-white hover:bg-white/10'
+            )}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-white rounded-2xl shadow-xl mt-2 p-4 absolute left-4 right-4">
-            <div className="flex flex-col gap-2">
+          <div className="md:hidden absolute left-fluid-sm right-fluid-sm mt-2 p-3 rounded-2xl glass shadow-xl animate-scale-in">
+            <div className="flex flex-col">
               {navigation.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-slate-700 hover:text-ocean-500 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                  className="px-4 py-3 rounded-lg text-primary text-fluid-base font-medium hover:bg-surface-alt transition-colors"
                 >
                   {item.name}
                 </a>
@@ -95,9 +111,9 @@ export default function Header() {
               <a
                 href="#contacto"
                 onClick={() => setIsOpen(false)}
-                className="bg-ocean-500 hover:bg-ocean-600 text-white px-4 py-3 rounded-lg text-center font-medium transition-colors mt-2"
+                className="mt-2 inline-flex justify-center items-center gap-2 bg-accent text-accent-fg px-5 py-3 rounded-xl font-medium"
               >
-                Reservar ahora
+                Reservar ahora →
               </a>
             </div>
           </div>

@@ -1,21 +1,32 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Fraunces } from 'next/font/google'
 import './globals.css'
 import { apartmentData } from '@/lib/data'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+})
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  axes: ['SOFT', 'opsz'],
+})
 
 export const metadata: Metadata = {
-  title: `${apartmentData.name} | Alquiler Vacacional`,
+  title: `${apartmentData.name} — ${apartmentData.tagline}`,
   description: apartmentData.description,
   keywords: [
     'alquiler vacacional',
-    'apartamento playa',
+    'apartamento Somo',
+    'surf Cantabria',
     apartmentData.location.city,
     apartmentData.location.region,
-    'vacaciones',
-    'costa atlántica',
-    'alojamiento'
+    'playa El Puntal',
+    'vacaciones norte España',
   ],
   openGraph: {
     title: apartmentData.name,
@@ -28,22 +39,15 @@ export const metadata: Metadata = {
     title: apartmentData.name,
     description: apartmentData.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="scroll-smooth">
+    <html lang="es" className={`${inter.variable} ${fraunces.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <meta name="theme-color" content="#0ea5e9" />
+        <meta name="theme-color" content="#0B2942" />
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -51,7 +55,7 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className="font-body antialiased">{children}</body>
     </html>
   )
 }

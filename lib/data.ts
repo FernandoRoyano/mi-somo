@@ -84,7 +84,7 @@ export const apartmentData = {
 
   // Puntos de interés cercanos - El Puntal, Somo
   pointsOfInterest: [
-    { name: "Playa El Puntal", distance: "50m", icon: "Waves" },
+    { name: "Playas de Somo y El Puntal", distance: "50m", icon: "Waves" },
     { name: "Escuela Cántabra de Surf", distance: "300m", icon: "Waves" },
     { name: "Chiringuito El Puntal", distance: "200m", icon: "UtensilsCrossed" },
     { name: "Supermercado", distance: "400m", icon: "ShoppingCart" },
@@ -137,7 +137,7 @@ export const apartmentData = {
         ]
       },
       {
-        name: "Playa El Puntal",
+        name: "Playas de Somo",
         photos: [
           { url: "/images/playa-somo.jpg", alt: "Playa de Somo" },
           { url: "/images/playa-surfista.jpg", alt: "Surfistas" },

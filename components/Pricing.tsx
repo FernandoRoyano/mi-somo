@@ -1,129 +1,155 @@
 'use client'
 
-import { Calendar, Info, Check } from 'lucide-react'
+import { Calendar, Check, Sparkles } from 'lucide-react'
 import { apartmentData } from '@/lib/data'
+import { cn } from '@/lib/utils'
 
 export default function Pricing() {
   const { pricing } = apartmentData
 
   return (
-    <section id="precios" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 text-ocean-600 mb-4">
-            <Calendar className="w-5 h-5" />
-            <span className="text-sm font-semibold uppercase tracking-wider">Precios</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">
-            Tarifas por temporada
+    <section id="precios" className="py-fluid-xl bg-surface-alt relative overflow-hidden">
+      <div
+        className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full opacity-25 blur-3xl"
+        style={{ background: 'radial-gradient(circle, rgb(var(--color-ocean) / 0.5), transparent 70%)' }}
+      />
+
+      <div className="container-page relative">
+        <div className="text-center max-w-2xl mx-auto mb-fluid-md space-y-3">
+          <span className="eyebrow inline-flex justify-center">
+            <Calendar className="w-3.5 h-3.5" /> Precios
+          </span>
+          <h2 className="font-display font-semibold text-fluid-5xl text-primary leading-[1.05] tracking-tight text-balance">
+            Tarifas{' '}
+            <span className="italic font-light text-ocean">por temporada</span>
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Precios transparentes sin sorpresas. Reserva directamente y ahorra las comisiones de plataformas.
+          <p className="text-muted text-fluid-lg leading-relaxed">
+            Sin comisiones de plataformas. Reserva directa, precios honestos.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {pricing.seasons.map((season, index) => (
-            <div
-              key={index}
-              className={`relative rounded-3xl p-8 transition-all hover:scale-105 ${
-                index === 0
-                  ? 'bg-gradient-to-br from-ocean-500 to-ocean-700 text-white shadow-xl'
-                  : 'bg-sand-50 text-slate-800 hover:shadow-lg'
-              }`}
-            >
-              {/* Season Badge */}
+        {/* Tarjetas de precio */}
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-fluid-md">
+          {pricing.seasons.map((season, index) => {
+            const featured = index === 0
+            return (
               <div
-                className={`inline-block px-4 py-1 rounded-full text-sm font-medium mb-4 ${
-                  index === 0
-                    ? 'bg-white/20 text-white'
-                    : season.color
-                }`}
+                key={index}
+                className={cn(
+                  'relative rounded-3xl p-7 md:p-8 transition-all duration-base',
+                  featured
+                    ? 'bg-primary text-primary-fg shadow-2xl md:scale-[1.03] md:-translate-y-2'
+                    : 'bg-surface text-primary border border-border/50 hover:shadow-lg hover:-translate-y-1'
+                )}
               >
-                {season.name}
-              </div>
+                {featured && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 bg-accent text-accent-fg text-fluid-xs font-semibold px-3 py-1 rounded-full">
+                    <Sparkles className="w-3 h-3" /> Más demandado
+                  </span>
+                )}
 
-              {/* Dates */}
-              <p className={`text-sm mb-6 ${index === 0 ? 'text-white/80' : 'text-slate-500'}`}>
-                {season.dates}
-              </p>
-
-              {/* Price per night */}
-              <div className="mb-2">
-                <span className="text-4xl font-bold">{season.pricePerNight}€</span>
-                <span className={`text-sm ${index === 0 ? 'text-white/70' : 'text-slate-500'}`}>
-                  {' '}/noche
-                </span>
-              </div>
-
-              {/* Price per week */}
-              <div className={`mb-6 ${index === 0 ? 'text-white/80' : 'text-slate-600'}`}>
-                <span className="text-2xl font-semibold">{season.pricePerWeek}€</span>
-                <span className="text-sm"> /semana</span>
-              </div>
-
-              {/* What's included */}
-              <div className={`space-y-2 ${index === 0 ? 'text-white/90' : 'text-slate-600'}`}>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4" />
-                  <span className="text-sm">WiFi incluido</span>
+                <div
+                  className={cn(
+                    'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-fluid-xs font-medium mb-5',
+                    featured
+                      ? 'bg-white/15 text-white'
+                      : 'bg-ocean/10 text-ocean'
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'w-1.5 h-1.5 rounded-full',
+                      featured ? 'bg-accent' : 'bg-ocean'
+                    )}
+                  />
+                  {season.name}
                 </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4" />
-                  <span className="text-sm">Ropa de cama y toallas</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4" />
-                  <span className="text-sm">Parking incluido</span>
-                </div>
-              </div>
 
-              {/* CTA */}
-              <a
-                href="#contacto"
-                className={`mt-8 block text-center py-3 rounded-xl font-semibold transition-colors ${
-                  index === 0
-                    ? 'bg-white text-ocean-600 hover:bg-ocean-50'
-                    : 'bg-ocean-500 text-white hover:bg-ocean-600'
-                }`}
-              >
-                Reservar
-              </a>
-            </div>
-          ))}
+                <p
+                  className={cn(
+                    'text-fluid-sm mb-6',
+                    featured ? 'text-white/60' : 'text-muted'
+                  )}
+                >
+                  {season.dates}
+                </p>
+
+                <div className="flex items-baseline gap-1.5 mb-1">
+                  <span className="font-display font-semibold text-fluid-6xl leading-none tabular-nums">
+                    {season.pricePerNight}
+                  </span>
+                  <span className="text-fluid-2xl font-display">€</span>
+                </div>
+                <p
+                  className={cn(
+                    'text-fluid-sm mb-5',
+                    featured ? 'text-white/60' : 'text-muted'
+                  )}
+                >
+                  por noche · {season.pricePerWeek}€ /semana
+                </p>
+
+                <ul
+                  className={cn(
+                    'space-y-2.5 mb-7 text-fluid-sm',
+                    featured ? 'text-white/85' : 'text-primary/80'
+                  )}
+                >
+                  {[
+                    'WiFi de fibra óptica',
+                    'Ropa de cama y toallas',
+                    'Parking privado',
+                  ].map((feat) => (
+                    <li key={feat} className="flex items-center gap-2.5">
+                      <Check
+                        className={cn(
+                          'w-4 h-4 shrink-0',
+                          featured ? 'text-accent' : 'text-ocean'
+                        )}
+                      />
+                      {feat}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#contacto"
+                  className={cn(
+                    'block text-center py-3.5 rounded-xl font-medium text-fluid-sm transition-all duration-base hover:-translate-y-0.5 active:scale-95',
+                    featured
+                      ? 'bg-accent text-accent-fg hover:shadow-glow'
+                      : 'bg-primary text-primary-fg hover:bg-primary/90'
+                  )}
+                >
+                  Reservar →
+                </a>
+              </div>
+            )
+          })}
         </div>
 
-        {/* Additional Info */}
-        <div className="bg-sand-50 rounded-3xl p-8">
-          <div className="flex items-start gap-4 mb-6">
-            <Info className="w-6 h-6 text-ocean-600 flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="font-bold text-slate-800 mb-2">Información adicional</h3>
-              <p className="text-slate-600">
-                Todos los precios son orientativos. Consulta disponibilidad y precios exactos para tus fechas.
-              </p>
+        {/* Info adicional */}
+        <div className="grid md:grid-cols-3 gap-3 md:gap-4">
+          {[
+            { label: 'Limpieza', value: `${pricing.extras.cleaningFee}€`, hint: 'pago único' },
+            { label: 'Fianza', value: `${pricing.extras.deposit}€`, hint: 'reembolsable' },
+            { label: 'Estancia mínima', value: `${pricing.extras.minimumNights} noches`, hint: 'temporada alta' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="bg-surface rounded-2xl px-5 py-4 border border-border/40 flex items-center justify-between"
+            >
+              <div>
+                <p className="text-fluid-xs uppercase tracking-wider text-muted">
+                  {item.label}
+                </p>
+                <p className="font-display font-semibold text-fluid-2xl text-primary mt-1">
+                  {item.value}
+                </p>
+              </div>
+              <span className="text-fluid-xs text-muted">{item.hint}</span>
             </div>
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl p-4">
-              <p className="text-sm text-slate-500 mb-1">Limpieza</p>
-              <p className="text-xl font-bold text-slate-800">{pricing.extras.cleaningFee}€</p>
-              <p className="text-xs text-slate-400">pago único</p>
-            </div>
-            <div className="bg-white rounded-xl p-4">
-              <p className="text-sm text-slate-500 mb-1">Fianza</p>
-              <p className="text-xl font-bold text-slate-800">{pricing.extras.deposit}€</p>
-              <p className="text-xs text-slate-400">reembolsable</p>
-            </div>
-            <div className="bg-white rounded-xl p-4">
-              <p className="text-sm text-slate-500 mb-1">Estancia mínima</p>
-              <p className="text-xl font-bold text-slate-800">{pricing.extras.minimumNights} noches</p>
-              <p className="text-xs text-slate-400">en temporada alta</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

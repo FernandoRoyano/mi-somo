@@ -3,17 +3,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
-  MessageCircle,
-  Send,
-  User,
-  Mail,
-  Phone,
-  Calendar,
-  Users,
-  MessageSquare,
-  CheckCircle
+  MessageCircle, Send, User, Mail, Phone, Calendar, Users, MessageSquare, CheckCircle2, ArrowUpRight,
 } from 'lucide-react'
 import { apartmentData, whatsappMessages } from '@/lib/data'
+import { cn } from '@/lib/utils'
 
 interface FormData {
   name: string
@@ -26,18 +19,9 @@ interface FormData {
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch
-  } = useForm<FormData>()
-
-  const watchDates = watch('dates')
-  const watchGuests = watch('guests')
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
 
   const onSubmit = (data: FormData) => {
-    // Build WhatsApp message
     const message = `Hola! Me interesa alquilar el apartamento ${apartmentData.name}.
 
 *Datos de contacto:*
@@ -54,236 +38,187 @@ ${data.message || 'Sin mensaje adicional'}
 
 ¿Está disponible?`
 
-    // Encode message for WhatsApp URL
-    const encodedMessage = encodeURIComponent(message)
-    const whatsappUrl = `https://wa.me/${apartmentData.contact.whatsapp}?text=${encodedMessage}`
-
-    // Open WhatsApp
-    window.open(whatsappUrl, '_blank')
+    const url = `https://wa.me/${apartmentData.contact.whatsapp}?text=${encodeURIComponent(message)}`
+    window.open(url, '_blank')
     setSubmitted(true)
   }
 
-  const openWhatsAppDirect = () => {
-    const message = whatsappMessages.default()
-    const encodedMessage = encodeURIComponent(message)
-    const whatsappUrl = `https://wa.me/${apartmentData.contact.whatsapp}?text=${encodedMessage}`
-    window.open(whatsappUrl, '_blank')
+  const openWhatsApp = () => {
+    const url = `https://wa.me/${apartmentData.contact.whatsapp}?text=${encodeURIComponent(whatsappMessages.default())}`
+    window.open(url, '_blank')
   }
 
   return (
-    <section id="contacto" className="py-20 bg-gradient-to-br from-ocean-600 to-ocean-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 text-ocean-200 mb-4">
-            <MessageCircle className="w-5 h-5" />
-            <span className="text-sm font-semibold uppercase tracking-wider">Contacto</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            ¿Listo para reservar?
+    <section id="contacto" className="relative py-fluid-xl bg-primary text-primary-fg overflow-hidden">
+      {/* Decoración */}
+      <div className="absolute inset-0 grid-pattern opacity-[0.04]" />
+      <div
+        className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-30 blur-3xl"
+        style={{ background: 'radial-gradient(circle, rgb(var(--color-accent) / 0.4), transparent 70%)' }}
+      />
+
+      <div className="container-page relative">
+        <div className="text-center max-w-2xl mx-auto mb-fluid-md space-y-3">
+          <span className="eyebrow inline-flex justify-center text-accent">
+            <MessageCircle className="w-3.5 h-3.5" /> Contacto
+          </span>
+          <h2 className="font-display font-semibold text-fluid-5xl text-white leading-[1.05] tracking-tight text-balance">
+            ¿Listo para{' '}
+            <span className="italic font-light text-accent">escapar?</span>
           </h2>
-          <p className="text-ocean-100 max-w-2xl mx-auto">
-            Contáctanos directamente por WhatsApp o rellena el formulario. Te responderemos lo antes posible.
+          <p className="text-white/70 text-fluid-lg leading-relaxed">
+            Escríbenos directamente. Respuesta en menos de 24 horas.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          {/* WhatsApp Card */}
-          <div className="bg-white rounded-3xl p-8 shadow-xl">
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 whatsapp-btn">
-                <MessageCircle className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 mb-2">
-                Contacto directo por WhatsApp
-              </h3>
-              <p className="text-slate-600">
-                La forma más rápida de contactar. Respuesta en menos de 24h.
-              </p>
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-4 lg:gap-6 items-start">
+          {/* WhatsApp card */}
+          <div className="bg-surface text-primary rounded-3xl p-7 md:p-8 shadow-2xl">
+            <div className="inline-flex w-14 h-14 rounded-2xl bg-[#25D366]/15 text-[#25D366] items-center justify-center mb-5 animate-pulse-soft">
+              <MessageCircle className="w-7 h-7" strokeWidth={1.8} />
             </div>
+            <h3 className="font-display font-semibold text-fluid-2xl text-primary mb-2">
+              Habla por WhatsApp
+            </h3>
+            <p className="text-muted text-fluid-sm leading-relaxed mb-6">
+              La forma más rápida. Recibe disponibilidad y precios al momento.
+            </p>
 
             <button
-              onClick={openWhatsAppDirect}
-              className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center gap-3"
+              onClick={openWhatsApp}
+              className="group w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white py-3.5 rounded-xl font-medium text-fluid-base hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-base"
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-5 h-5" />
               Abrir WhatsApp
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
 
-            <div className="mt-8 pt-8 border-t border-slate-100">
-              <p className="text-sm text-slate-500 text-center mb-4">
-                También puedes contactar por:
+            <div className="mt-7 pt-6 border-t border-border/60">
+              <p className="text-fluid-xs uppercase tracking-wider text-muted mb-3">
+                También por
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <a
                   href={`tel:${apartmentData.contact.phone}`}
-                  className="flex items-center gap-3 text-slate-600 hover:text-ocean-600 transition-colors"
+                  className="flex items-center gap-3 text-primary hover:text-ocean transition-colors text-fluid-sm py-1.5"
                 >
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-4 h-4 text-ocean" />
                   {apartmentData.contact.phone}
                 </a>
                 <a
                   href={`mailto:${apartmentData.contact.email}`}
-                  className="flex items-center gap-3 text-slate-600 hover:text-ocean-600 transition-colors"
+                  className="flex items-center gap-3 text-primary hover:text-ocean transition-colors text-fluid-sm py-1.5"
                 >
-                  <Mail className="w-5 h-5" />
+                  <Mail className="w-4 h-4 text-ocean" />
                   {apartmentData.contact.email}
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="bg-white rounded-3xl p-8 shadow-xl">
+          {/* Form */}
+          <div className="bg-surface text-primary rounded-3xl p-7 md:p-8 shadow-2xl">
             {submitted ? (
-              <div className="text-center py-12">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">
-                  ¡Mensaje enviado!
+              <div className="text-center py-fluid-md">
+                <div className="inline-flex w-16 h-16 rounded-full bg-success/15 text-success items-center justify-center mb-4">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
+                <h3 className="font-display font-semibold text-fluid-2xl text-primary mb-2">
+                  ¡Mensaje preparado!
                 </h3>
-                <p className="text-slate-600 mb-6">
-                  Se ha abierto WhatsApp con tu mensaje. Envíalo para completar la consulta.
+                <p className="text-muted text-fluid-sm mb-6 max-w-sm mx-auto">
+                  Se ha abierto WhatsApp con todos los datos. Solo te queda enviar.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="text-ocean-600 hover:text-ocean-700 font-medium"
+                  className="text-ocean hover:text-primary font-medium text-fluid-sm transition-colors"
                 >
-                  Enviar otro mensaje
+                  ← Enviar otro mensaje
                 </button>
               </div>
             ) : (
               <>
-                <h3 className="text-xl font-bold text-slate-800 mb-6">
-                  Formulario de contacto
+                <h3 className="font-display font-semibold text-fluid-2xl text-primary mb-1">
+                  Cuéntanos tu plan
                 </h3>
+                <p className="text-muted text-fluid-sm mb-6">
+                  Te enviaremos disponibilidad y precio cerrado.
+                </p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  {/* Name */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                      Nombre completo *
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Field label="Nombre completo" error={errors.name?.message} icon={<User className="w-4 h-4" />}>
+                    <input
+                      {...register('name', { required: 'Obligatorio' })}
+                      type="text"
+                      placeholder="Tu nombre"
+                      className={inputClass(!!errors.name, true)}
+                    />
+                  </Field>
+
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <Field label="Email" error={errors.email?.message} icon={<Mail className="w-4 h-4" />}>
                       <input
-                        {...register('name', { required: 'El nombre es obligatorio' })}
+                        {...register('email', {
+                          required: 'Obligatorio',
+                          pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Email no válido' },
+                        })}
+                        type="email"
+                        placeholder="tu@email.com"
+                        className={inputClass(!!errors.email, true)}
+                      />
+                    </Field>
+                    <Field label="Teléfono" error={errors.phone?.message} icon={<Phone className="w-4 h-4" />}>
+                      <input
+                        {...register('phone', { required: 'Obligatorio' })}
+                        type="tel"
+                        placeholder="+34 600 000 000"
+                        className={inputClass(!!errors.phone, true)}
+                      />
+                    </Field>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <Field label="Fechas deseadas" error={errors.dates?.message} icon={<Calendar className="w-4 h-4" />}>
+                      <input
+                        {...register('dates', { required: 'Obligatorio' })}
                         type="text"
-                        className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all"
-                        placeholder="Tu nombre"
+                        placeholder="15 — 22 Agosto"
+                        className={inputClass(!!errors.dates, true)}
                       />
-                    </div>
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                    )}
+                    </Field>
+                    <Field label="Nº de personas" icon={<Users className="w-4 h-4" />}>
+                      <select
+                        {...register('guests', { required: true, valueAsNumber: true })}
+                        className={cn(inputClass(false, true), 'appearance-none cursor-pointer')}
+                      >
+                        {[1, 2, 3, 4].map((n) => (
+                          <option key={n} value={n}>
+                            {n} {n === 1 ? 'persona' : 'personas'}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
                   </div>
 
-                  {/* Email & Phone */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">
-                        Email *
-                      </label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          {...register('email', {
-                            required: 'El email es obligatorio',
-                            pattern: {
-                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: 'Email no válido'
-                            }
-                          })}
-                          type="email"
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all"
-                          placeholder="tu@email.com"
-                        />
-                      </div>
-                      {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">
-                        Teléfono *
-                      </label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          {...register('phone', { required: 'El teléfono es obligatorio' })}
-                          type="tel"
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all"
-                          placeholder="+34 600 000 000"
-                        />
-                      </div>
-                      {errors.phone && (
-                        <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
-                      )}
-                    </div>
-                  </div>
+                  <Field label="Mensaje (opcional)" icon={<MessageSquare className="w-4 h-4" />}>
+                    <textarea
+                      {...register('message')}
+                      rows={3}
+                      placeholder="¿Alguna pregunta o petición especial?"
+                      className={cn(inputClass(false, true), 'resize-none pt-3')}
+                    />
+                  </Field>
 
-                  {/* Dates & Guests */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">
-                        Fechas deseadas *
-                      </label>
-                      <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          {...register('dates', { required: 'Las fechas son obligatorias' })}
-                          type="text"
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all"
-                          placeholder="15-22 Agosto"
-                        />
-                      </div>
-                      {errors.dates && (
-                        <p className="text-red-500 text-sm mt-1">{errors.dates.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">
-                        Nº de personas *
-                      </label>
-                      <div className="relative">
-                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <select
-                          {...register('guests', { required: true })}
-                          className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all appearance-none bg-white"
-                        >
-                          {[1, 2, 3, 4].map((n) => (
-                            <option key={n} value={n}>
-                              {n} {n === 1 ? 'persona' : 'personas'}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                      Mensaje (opcional)
-                    </label>
-                    <div className="relative">
-                      <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                      <textarea
-                        {...register('message')}
-                        rows={3}
-                        className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-ocean-500 focus:border-transparent transition-all resize-none"
-                        placeholder="¿Alguna pregunta o petición especial?"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Submit */}
                   <button
                     type="submit"
-                    className="w-full bg-ocean-500 hover:bg-ocean-600 text-white py-4 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-accent text-accent-fg py-4 rounded-xl font-medium text-fluid-base shadow-lg hover:shadow-glow hover:-translate-y-0.5 active:scale-95 transition-all duration-base"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4" />
                     Enviar por WhatsApp
                   </button>
+                  <p className="text-fluid-xs text-muted text-center">
+                    Al enviar se abrirá WhatsApp con tus datos prellenados.
+                  </p>
                 </form>
               </>
             )}
@@ -291,5 +226,45 @@ ${data.message || 'Sin mensaje adicional'}
         </div>
       </div>
     </section>
+  )
+}
+
+function Field({
+  label, error, icon, children,
+}: {
+  label: string
+  error?: string
+  icon?: React.ReactNode
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <label className="block text-fluid-xs font-medium text-primary uppercase tracking-wider mb-1.5">
+        {label}
+      </label>
+      <div className="relative">
+        {icon && (
+          <span className="absolute left-3.5 top-3.5 text-muted pointer-events-none">
+            {icon}
+          </span>
+        )}
+        {children}
+      </div>
+      {error && (
+        <p className="text-fluid-xs text-danger mt-1 flex items-center gap-1">
+          <span aria-hidden>⚠</span> {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function inputClass(hasError: boolean, hasIcon: boolean) {
+  return cn(
+    'w-full bg-surface-alt/60 border border-transparent rounded-xl py-3 pr-4 text-fluid-sm text-primary placeholder:text-muted/70',
+    'transition-colors duration-fast',
+    'focus:outline-none focus:bg-surface focus:border-accent focus:ring-2 focus:ring-accent/20',
+    hasIcon ? 'pl-10' : 'pl-4',
+    hasError && 'border-danger/40 focus:border-danger focus:ring-danger/20'
   )
 }

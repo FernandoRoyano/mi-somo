@@ -1,66 +1,65 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, ChevronLeft, ChevronRight, Camera } from 'lucide-react'
 import { apartmentData } from '@/lib/data'
+import { cn } from '@/lib/utils'
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
-  const allPhotos = apartmentData.gallery.categories.flatMap((cat, catIndex) =>
-    cat.photos.map((photo, photoIndex) => ({
-      ...photo,
-      category: cat.name,
-      globalIndex: apartmentData.gallery.categories
-        .slice(0, catIndex)
-        .reduce((acc, c) => acc + c.photos.length, 0) + photoIndex
-    }))
-  )
+  const currentPhotos =
+    apartmentData.gallery.categories[selectedCategory]?.photos || []
 
-  const currentCategoryPhotos = apartmentData.gallery.categories[selectedCategory]?.photos || []
-
-  const openLightbox = (index: number) => {
-    setCurrentPhotoIndex(index)
-    setLightboxOpen(true)
-  }
-
-  const closeLightbox = () => {
-    setLightboxOpen(false)
-  }
-
-  const nextPhoto = () => {
-    setCurrentPhotoIndex((prev) =>
-      prev < currentCategoryPhotos.length - 1 ? prev + 1 : 0
-    )
-  }
-
-  const prevPhoto = () => {
-    setCurrentPhotoIndex((prev) =>
-      prev > 0 ? prev - 1 : currentCategoryPhotos.length - 1
-    )
-  }
+  useEffect(() => {
+    if (!lightboxOpen) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false)
+      if (e.key === 'ArrowRight')
+        setCurrentPhotoIndex((p) => (p + 1) % currentPhotos.length)
+      if (e.key === 'ArrowLeft')
+        setCurrentPhotoIndex((p) =>
+          p === 0 ? currentPhotos.length - 1 : p - 1
+        )
+    }
+    document.addEventListener('keydown', handler)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', handler)
+      document.body.style.overflow = ''
+    }
+  }, [lightboxOpen, currentPhotos.length])
 
   return (
-    <section id="galeria" className="py-20 bg-sand-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 text-ocean-600 mb-4">
-            <Camera className="w-5 h-5" />
-            <span className="text-sm font-semibold uppercase tracking-wider">Galería</span>
+    <section id="galeria" className="py-fluid-xl bg-surface">
+      <div className="container-page">
+        <div className="flex flex-col items-start md:flex-row md:items-end md:justify-between gap-6 mb-fluid-md">
+          <div className="space-y-3 max-w-2xl">
+            <span className="eyebrow">Galería</span>
+            <h2 className="font-display font-semibold text-fluid-5xl text-primary leading-[1.05] tracking-tight text-balance">
+              Conoce cada{' '}
+              <span className="italic font-light text-ocean">rincón</span>
+            </h2>
+            <p className="text-muted text-fluid-lg leading-relaxed">
+              Desde el salón con vistas hasta las dunas de El Puntal.
+              Explora el apartamento y su entorno.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">
-            Conoce tu próximo destino
-          </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Explora cada rincón del apartamento y sus alrededores
+          <p className="text-muted text-fluid-sm">
+            <span className="font-display font-semibold text-fluid-3xl text-primary">
+              {apartmentData.gallery.categories.reduce(
+                (acc, c) => acc + c.photos.length,
+                0
+              )}
+            </span>{' '}
+            fotos en {apartmentData.gallery.categories.length} colecciones
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        {/* Tabs scroll horizontal */}
+        <div className="flex gap-2 overflow-x-auto pb-3 mb-fluid-sm -mx-fluid-sm px-fluid-sm scrollbar-thin">
           {apartmentData.gallery.categories.map((category, index) => (
             <button
               key={category.name}
@@ -68,110 +67,129 @@ export default function Gallery() {
                 setSelectedCategory(index)
                 setCurrentPhotoIndex(0)
               }}
-              className={`px-5 py-2 rounded-full font-medium transition-all ${
+              className={cn(
+                'shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-fluid-sm font-medium transition-all duration-base whitespace-nowrap',
                 selectedCategory === index
-                  ? 'bg-ocean-500 text-white shadow-lg'
-                  : 'bg-white text-slate-600 hover:bg-ocean-50 hover:text-ocean-600'
-              }`}
+                  ? 'bg-primary text-primary-fg shadow-md'
+                  : 'bg-surface-alt text-muted hover:text-primary hover:bg-border/40'
+              )}
             >
               {category.name}
-              <span className="ml-2 text-xs opacity-70">
-                ({category.photos.length})
+              <span
+                className={cn(
+                  'inline-flex items-center justify-center min-w-[1.5rem] h-5 px-1.5 rounded-full text-fluid-xs',
+                  selectedCategory === index
+                    ? 'bg-accent text-accent-fg'
+                    : 'bg-border/50 text-muted'
+                )}
+              >
+                {category.photos.length}
               </span>
             </button>
           ))}
         </div>
 
-        {/* Photo Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {currentCategoryPhotos.map((photo, index) => (
-            <div
-              key={index}
-              onClick={() => openLightbox(index)}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer group"
-            >
-              {/* Placeholder while images load */}
-              <div className="absolute inset-0 bg-gradient-to-br from-ocean-200 to-ocean-300 flex items-center justify-center">
-                <Camera className="w-12 h-12 text-ocean-400" />
-              </div>
-
-              {/* Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                style={{ backgroundImage: `url('${photo.url}')` }}
-              />
-
-              {/* Overlay on hover */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                <span className="text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  {photo.alt}
-                </span>
-              </div>
-            </div>
-          ))}
+        {/* Grid masonry-style */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+          {currentPhotos.map((photo, index) => {
+            // Patrón asimétrico: la primera más grande
+            const isFeatured = index === 0
+            return (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentPhotoIndex(index)
+                  setLightboxOpen(true)
+                }}
+                className={cn(
+                  'group relative overflow-hidden rounded-2xl bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ring-offset-2 ring-offset-surface',
+                  isFeatured
+                    ? 'sm:col-span-2 sm:row-span-2 aspect-[4/3] sm:aspect-[16/12]'
+                    : 'aspect-[4/3]'
+                )}
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-slower ease-out group-hover:scale-110"
+                  style={{ backgroundImage: `url('${photo.url}')` }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-primary/0 group-hover:bg-primary/20 transition-colors duration-base" />
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-base">
+                  <p className="text-white text-fluid-sm font-medium text-left">
+                    {photo.alt}
+                  </p>
+                </div>
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-base">
+                  <Camera className="w-3.5 h-3.5 text-primary" />
+                </div>
+              </button>
+            )
+          })}
         </div>
 
-        {/* Empty state */}
-        {currentCategoryPhotos.length === 0 && (
-          <div className="text-center py-20 bg-white rounded-2xl">
-            <Camera className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <p className="text-slate-500">No hay fotos en esta categoría</p>
-            <p className="text-sm text-slate-400 mt-2">
-              Añade fotos en el archivo lib/data.ts
-            </p>
+        {currentPhotos.length === 0 && (
+          <div className="text-center py-fluid-lg bg-surface-alt rounded-3xl">
+            <Camera className="w-12 h-12 text-muted/40 mx-auto mb-3" />
+            <p className="text-muted">No hay fotos en esta categoría</p>
           </div>
         )}
       </div>
 
       {/* Lightbox */}
-      {lightboxOpen && currentCategoryPhotos[currentPhotoIndex] && (
+      {lightboxOpen && currentPhotos[currentPhotoIndex] && (
         <div
-          className="fixed inset-0 z-50 bg-black/95 lightbox-overlay flex items-center justify-center"
-          onClick={closeLightbox}
+          className="fixed inset-0 z-[300] bg-primary/95 backdrop-blur-2xl flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setLightboxOpen(false)}
         >
-          {/* Close button */}
           <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 transition-colors"
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Cerrar"
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 rounded-full glass-dark text-white flex items-center justify-center hover:bg-white/15 transition-colors"
           >
-            <X className="w-8 h-8" />
-          </button>
-
-          {/* Navigation */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              prevPhoto()
-            }}
-            className="absolute left-4 text-white/70 hover:text-white p-2 transition-colors"
-          >
-            <ChevronLeft className="w-10 h-10" />
+            <X className="w-5 h-5" />
           </button>
 
           <button
             onClick={(e) => {
               e.stopPropagation()
-              nextPhoto()
+              setCurrentPhotoIndex((p) =>
+                p === 0 ? currentPhotos.length - 1 : p - 1
+              )
             }}
-            className="absolute right-4 text-white/70 hover:text-white p-2 transition-colors"
+            aria-label="Anterior"
+            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-dark text-white flex items-center justify-center hover:bg-white/15 transition-colors"
           >
-            <ChevronRight className="w-10 h-10" />
+            <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* Image */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setCurrentPhotoIndex((p) => (p + 1) % currentPhotos.length)
+            }}
+            aria-label="Siguiente"
+            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-dark text-white flex items-center justify-center hover:bg-white/15 transition-colors"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
           <div
-            className="max-w-5xl max-h-[85vh] w-full h-full mx-4 bg-contain bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url('${currentCategoryPhotos[currentPhotoIndex].url}')`
-            }}
+            className="relative max-w-6xl w-full h-[80vh] animate-scale-in"
             onClick={(e) => e.stopPropagation()}
-          />
+          >
+            <div
+              className="absolute inset-0 bg-contain bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url('${currentPhotos[currentPhotoIndex].url}')`,
+              }}
+            />
+          </div>
 
-          {/* Caption */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-center">
-            <p className="font-medium">{currentCategoryPhotos[currentPhotoIndex].alt}</p>
-            <p className="text-sm text-white/60 mt-1">
-              {currentPhotoIndex + 1} / {currentCategoryPhotos.length}
+          <div className="absolute bottom-6 inset-x-0 text-center text-white">
+            <p className="font-display text-fluid-lg">
+              {currentPhotos[currentPhotoIndex].alt}
+            </p>
+            <p className="text-fluid-xs text-white/50 tracking-wider mt-1">
+              {currentPhotoIndex + 1} / {currentPhotos.length}
             </p>
           </div>
         </div>
