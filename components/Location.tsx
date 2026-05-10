@@ -72,7 +72,7 @@ export default function Location() {
           </span>
           <h2 className="font-display font-semibold text-fluid-5xl text-primary leading-[1.05] tracking-tight text-balance">
             A 50 metros{' '}
-            <span className="italic font-light text-ocean">del Atlántico</span>
+            <span className="italic font-light text-ocean">del Cantábrico</span>
           </h2>
           <p className="text-muted text-fluid-lg leading-relaxed">
             {apartmentData.location.address}, {apartmentData.location.city}.
