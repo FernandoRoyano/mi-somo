@@ -148,6 +148,46 @@ export const apartmentData = {
     ]
   },
 
+  // Gastronomía cercana — experiencias para parejas
+  gastronomy: [
+    {
+      icon: "Fish",
+      title: "Pescado y marisco fresco",
+      description: "Llegado cada mañana del puerto de Santander. Rabas, anchoas del Cantábrico, almejas a la marinera.",
+      tag: "A 5 min andando"
+    },
+    {
+      icon: "Wine",
+      title: "Tapeo en Santander",
+      description: "Cruza en ferry y piérdete por Cañadío y Pombo. Vinos de la tierra, pintxos creativos, ambiente de barrio.",
+      tag: "15 min en ferry"
+    },
+    {
+      icon: "UtensilsCrossed",
+      title: "Cocina cántabra de autor",
+      description: "Restaurantes con producto km 0: cocido montañés, sobaos, quesucos y la mejor carne roja del norte.",
+      tag: "Reserva imprescindible"
+    },
+    {
+      icon: "Coffee",
+      title: "Desayunos frente al mar",
+      description: "Cafés con vistas a la bahía y bollería artesana. Perfecto antes de un paseo por El Puntal.",
+      tag: "A pie de playa"
+    },
+    {
+      icon: "GlassWater",
+      title: "Sidrerías y bodegas",
+      description: "Sube a la sierra para una comida larga: sidra natural, chuletón a la piedra y postres caseros.",
+      tag: "20 min en coche"
+    },
+    {
+      icon: "ShoppingBasket",
+      title: "Mercados locales",
+      description: "Mercado de La Esperanza en Santander: anchoas, conservas, quesos y un café arriba con vistas.",
+      tag: "Domingos imprescindible"
+    }
+  ],
+
   // Normas de la casa
   houseRules: [
     "Check-in: 16:00 - 20:00",

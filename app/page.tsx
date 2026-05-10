@@ -3,6 +3,7 @@ import Hero from '@/components/Hero'
 import Gallery from '@/components/Gallery'
 import Amenities from '@/components/Amenities'
 import Location from '@/components/Location'
+import Gastronomy from '@/components/Gastronomy'
 import Pricing from '@/components/Pricing'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
@@ -15,6 +16,7 @@ export default function Home() {
       <Gallery />
       <Amenities />
       <Location />
+      <Gastronomy />
       <Pricing />
       <Contact />
       <Footer />

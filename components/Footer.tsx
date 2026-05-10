@@ -8,6 +8,7 @@ const quickLinks = [
   { name: 'Galería', href: '#galeria' },
   { name: 'Servicios', href: '#servicios' },
   { name: 'Ubicación', href: '#ubicacion' },
+  { name: 'Gastronomía', href: '#gastronomia' },
   { name: 'Precios', href: '#precios' },
   { name: 'Contacto', href: '#contacto' },
 ]
