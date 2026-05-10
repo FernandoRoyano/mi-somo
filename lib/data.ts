@@ -3,6 +3,25 @@
 // Edita este archivo para personalizar tu web
 // ============================================
 
+export interface Place {
+  name: string
+  area: string
+  schedule?: string
+  description: string
+  highlight?: string
+  rating: number
+  badge?: string
+  featured?: boolean
+}
+
+export interface RecommendationCategory {
+  id: string
+  name: string
+  icon: string
+  subtitle: string
+  places: Place[]
+}
+
 export const apartmentData = {
   // Información básica
   name: "Apartamento Somo",
@@ -148,45 +167,282 @@ export const apartmentData = {
     ]
   },
 
-  // Gastronomía cercana — experiencias para parejas
-  gastronomy: [
-    {
-      icon: "Fish",
-      title: "Pescado y marisco fresco",
-      description: "Llegado cada mañana del puerto de Santander. Rabas, anchoas del Cantábrico, almejas a la marinera.",
-      tag: "A 5 min andando"
+  // Recomendaciones curadas — gastronomía y planes
+  recommendations: {
+    categories: [
+      {
+        id: "tapeo",
+        name: "Tapeo",
+        icon: "Beer",
+        subtitle: "Pinchos y tapeo en Santander",
+        places: [
+          {
+            name: "Casa Lita",
+            area: "Paseo de Pereda, 37",
+            schedule: "12h–24h · Cerrado lunes",
+            description: "El templo del pintxo en Santander. Pinchos calientes impresionantes y mucho ambiente.",
+            highlight: "Pide los pinchos calientes. Llega antes de las 13h o habrá cola.",
+            rating: 4.3,
+            badge: "Top",
+            featured: true
+          },
+          {
+            name: "Casa Ajero",
+            area: "Daoiz y Velarde, 18 · Cerrado lunes",
+            description: "El antídoto al turismo. Vino de la casa a 2,50€, pulpo con patata, calamar con cebolla. Barra de toda la vida.",
+            rating: 4.3,
+            badge: "Solo locales"
+          },
+          {
+            name: "Bar La Cátedra",
+            area: "C/ del Medio, 5 · Todos los días",
+            description: "Ambiente nocturno chulo y terraza agradable. Los champiñones en salsa de queso azul son de otro nivel.",
+            rating: 4.1
+          }
+        ]
+      },
+      {
+        id: "tortilla",
+        name: "Tortilla",
+        icon: "EggFried",
+        subtitle: "Bares de toda la vida",
+        places: [
+          {
+            name: "Bodega del Riojano",
+            area: "C/ Río de la Pila, 5",
+            schedule: "Mediodía y noches · Dom solo mediodía",
+            description: "Bodega del s. XVI con barriles pintados por artistas cántabros. La tortilla de chorizo es legendaria.",
+            highlight: "Comer aquí es como entrar en una instalación de arte. La tortilla de chorizo: pídela sí o sí.",
+            rating: 4.4,
+            badge: "Más auténtica",
+            featured: true
+          },
+          {
+            name: "Cañadío",
+            area: "C/ Gómez Oreña, 15 · Cerrado dom noche",
+            description: "La tortilla de patata de Cañadío tiene fama propia desde hace décadas. Punto cremoso perfecto.",
+            rating: 4.3,
+            badge: "Institución"
+          },
+          {
+            name: "Diluvio",
+            area: "C/ Ataulfo Argenta, 14",
+            description: "Bar clásico reformado del centro. Tortilla de gorgonzola con cebolla caramelizada.",
+            highlight: "Llega antes de las 13:30h — los pinchos se agotan.",
+            rating: 4.1
+          },
+          {
+            name: "Taberna El Inicio",
+            area: "Av. Los Castros, 7 · L–V · 7:30–21h",
+            description: "Joya escondida recién reabierta. Dicen que tiene la mejor tortilla para desayunar en Santander.",
+            rating: 4.7,
+            badge: "Joya escondida"
+          },
+          {
+            name: "Cafetería Rúa",
+            area: "C/ Rualasal, 15 · Desde 8:30h",
+            description: "3€ la ración con pan. La mejor relación calidad-precio del centro. Varios tipos de tortilla y zumo natural.",
+            rating: 4.5
+          }
+        ]
+      },
+      {
+        id: "rabas",
+        name: "Rabas",
+        icon: "Fish",
+        subtitle: "El plato cantábrico por excelencia",
+        places: [
+          {
+            name: "Marisquería Casa José",
+            area: "Pl. Cabildos, 1 · Cerrado martes",
+            description: "Solo van locales. En el puerto pesquero. Porciones brutales: zamburiñas, pulpo, croquetas de jamón ibérico.",
+            highlight: "El punto destacado de toda nuestra semana en España — reseña real.",
+            rating: 4.4,
+            badge: "Puerto pesquero",
+            featured: true
+          },
+          {
+            name: "Taberna La Prensa",
+            area: "Bo. Monte La Torre, 86 · Cerrado martes",
+            description: "Porciones desmesuradas. Anchoítas frescas y mariscos de temporada. Ambiente taberna auténtico.",
+            rating: 4.4
+          },
+          {
+            name: "La Chulilla",
+            area: "Av. Sotileza, 36 · Cerrado lunes",
+            description: "Pequeño restaurante junto a los barcos. 30 min a pie del centro. Producto fresquísimo, paella individual sobresaliente.",
+            rating: 4.5
+          }
+        ]
+      },
+      {
+        id: "restaurantes",
+        name: "Restaurantes",
+        icon: "UtensilsCrossed",
+        subtitle: "De nivel sin arruinarse",
+        places: [
+          {
+            name: "Cadelo",
+            area: "C/ Sta. Lucía, 33 · 13:30–15:30 / 20:30–23",
+            description: "Cocina española con toque asiático. Servicio impecable. Buñuelos de bacalao, karaage, pan con chocolate.",
+            highlight: "Reserva imprescindible. Se llena siempre.",
+            rating: 4.7,
+            badge: "El mejor valorado",
+            featured: true
+          },
+          {
+            name: "La Magnolia",
+            area: "C/ Tetuán, 21 · Solo Jue–Dom",
+            description: "Menú corto ejecutado a la perfección. Las mejores croquetas de Santander. Tacos, tataki de atún y burrata sobresalientes.",
+            rating: 4.6,
+            badge: "Croquetas legendarias"
+          },
+          {
+            name: "Posada del Mar",
+            area: "C/ Castelar, 19 · Cerrado lun y sáb noche",
+            description: "Pescado de altísima calidad. El rape es espectacular. Personal muy formado, vistas tranquilas al puerto.",
+            rating: 4.6
+          },
+          {
+            name: "La Ventana",
+            area: "C/ El Somo, 114 · Cerrado domingos",
+            description: "Rabas y croquetas excelentes. Paella sobresaliente. Tiene opciones para vegetarianos (raro en la zona).",
+            rating: 4.6
+          }
+        ]
+      },
+      {
+        id: "brunch",
+        name: "Brunch & Cafés",
+        icon: "Coffee",
+        subtitle: "Para empezar el día con calma",
+        places: [
+          {
+            name: "Pravda",
+            area: "C/ Guevara, 28 · Cerrado lunes",
+            description: "El café más íntimo de Santander. 40 tipos de té, tartas caseras, arte y biblioteca. Oasis tranquila en el centro histórico.",
+            rating: 4.8,
+            badge: "El más especial",
+            featured: true
+          },
+          {
+            name: "Salvaje Santander",
+            area: "C/ Ataulfo Argenta, 31 · Desde 10h",
+            description: "El referente del brunch en la ciudad. Açaí bowls, eggs Benedict, menús completos. Ambiente casual.",
+            rating: 4.4,
+            badge: "Brunch completo"
+          },
+          {
+            name: "With Love",
+            area: "C/ Joaquín Costa, 18A · Mar–Sáb · Sardinero",
+            description: "Pancakes, cinnamon bun de pistacho, café estilo americano. Las mejores tartas del norte de España.",
+            rating: 4.7
+          }
+        ]
+      },
+      {
+        id: "somo",
+        name: "En Somo",
+        icon: "Waves",
+        subtitle: "A un paso del apartamento",
+        places: [
+          {
+            name: "Surf Cafe",
+            area: "C/ Las Quebrantas, 114 · 8–23h",
+            description: "Frente a la playa. Tortilla mirando las olas, buen café y ambiente relajado.",
+            highlight: "La tortilla con vistas al mar de Somo.",
+            rating: 4.1,
+            badge: "Frente al mar",
+            featured: true
+          },
+          {
+            name: "Bar Pepe",
+            area: "C/ Isla de Mouro, 1 · 11h–24h",
+            description: "El clásico del pueblo. Hamburguesas, torreznos y queso fundido. Ambiente de toda la vida.",
+            rating: 4.0
+          },
+          {
+            name: "Onda Açaí",
+            area: "C/ Isla de Mouro, 10 · L–V tardes / Sáb–Dom",
+            description: "El mejor açaí bowl de la zona. Aguacate, café, opciones sin gluten. Ideal para una mañana de playa.",
+            rating: 4.6,
+            badge: "Brunch saludable"
+          }
+        ]
+      },
+      {
+        id: "cultura",
+        name: "Cultura & visitas",
+        icon: "Landmark",
+        subtitle: "Planes que merecen la pena",
+        places: [
+          {
+            name: "Palacio de la Magdalena",
+            area: "Av. de la Magdalena, 1 · Jardines gratis",
+            description: "Residencia de verano de Alfonso XIII. Jardines con vistas al mar espectaculares. Hay focas en el pequeño zoo.",
+            highlight: "Ve andando, no cojas el trenecito.",
+            rating: 4.6,
+            badge: "Imprescindible",
+            featured: true
+          },
+          {
+            name: "Centro Botín",
+            area: "Paseo de Pereda · Cerrado lunes · ~5€",
+            description: "Diseñado por Renzo Piano, frente al mar. Arte contemporáneo. La sala final con ventanal al Cantábrico vale la entrada sola.",
+            rating: 4.3
+          },
+          {
+            name: "Refugio Antiaéreo",
+            area: "Pl. del Príncipe · Gratis",
+            description: "Búnker de la Guerra Civil bajo la ciudad. Visita guiada de 45 min muy impactante. Solo 2h por turno.",
+            rating: 4.6
+          },
+          {
+            name: "Parque de Cabárceno",
+            area: "A 20 min · 9:30–17h (18h findes)",
+            description: "Antigua mina convertida en reserva natural. Elefantes, rinocerontes y osos en semilibertad. El telecabina es obligatorio.",
+            rating: 4.5,
+            badge: "A 20 min"
+          },
+          {
+            name: "Secuoyas de Cabezón de la Sal",
+            area: "A 45 min · Gratuito · 24h",
+            description: "El bosque de secuoyas más grande de Europa. Alucinante y gratuito. Combínalo con el interior de Cantabria.",
+            rating: 4.7
+          }
+        ]
+      }
+    ],
+    route: {
+      day1: {
+        title: "Día 1 — Santander",
+        stops: [
+          { time: "Desayuno",    title: "Cafetería Rúa o Taberna El Inicio", desc: "Tortilla con café y zumo natural. La mejor forma de empezar el día." },
+          { time: "Mañana",      title: "Paseo de Pereda + Centro Botín",     desc: "Escultura de Los Raqueros y arte contemporáneo con vistas al puerto (~1h)." },
+          { time: "Mediodía",    title: "Cañadío o Bodega del Riojano",       desc: "La tortilla mítica de Cañadío o la de chorizo en la Bodega. Ambas son experiencias diferentes." },
+          { time: "Tarde",       title: "Palacio de la Magdalena",            desc: "Paseo por los jardines, vistas al Cantábrico y focas. Sin trenecito." },
+          { time: "Noche",       title: "Circuito de pinchos",                desc: "Casa Ajero → Bar La Cátedra → Casa Lita. De más tranquilo a más animado." }
+        ]
+      },
+      day2: {
+        title: "Día 2 — Somo + rabas",
+        stops: [
+          { time: "Mañana",      title: "Ferry a Santander (~25 min)",        desc: "Mucho más bonito que ir en coche. Sale del muelle de Somo." },
+          { time: "Desayuno",    title: "Surf Cafe o Onda Açaí",              desc: "Tortilla con vistas al mar o açaí bowl, según el día." },
+          { time: "Media mañana", title: "Playa & Paseo del Puntal",          desc: "Una de las playas más bonitas de Cantabria. Larga, con dunas y sin masificación." },
+          { time: "Mediodía",    title: "Marisquería Casa José",              desc: "Las rabas más épicas del viaje. Puerto pesquero, solo locales. Añade zamburiñas." },
+          { time: "Cena",        title: "Cadelo",                             desc: "El mejor restaurante de Santander para cerrar. Reserva imprescindible." }
+        ]
+      }
     },
-    {
-      icon: "Wine",
-      title: "Tapeo en Santander",
-      description: "Cruza en ferry y piérdete por Cañadío y Pombo. Vinos de la tierra, pintxos creativos, ambiente de barrio.",
-      tag: "15 min en ferry"
-    },
-    {
-      icon: "UtensilsCrossed",
-      title: "Cocina cántabra de autor",
-      description: "Restaurantes con producto km 0: cocido montañés, sobaos, quesucos y la mejor carne roja del norte.",
-      tag: "Reserva imprescindible"
-    },
-    {
-      icon: "Coffee",
-      title: "Desayunos frente al mar",
-      description: "Cafés con vistas a la bahía y bollería artesana. Perfecto antes de un paseo por El Puntal.",
-      tag: "A pie de playa"
-    },
-    {
-      icon: "GlassWater",
-      title: "Sidrerías y bodegas",
-      description: "Sube a la sierra para una comida larga: sidra natural, chuletón a la piedra y postres caseros.",
-      tag: "20 min en coche"
-    },
-    {
-      icon: "ShoppingBasket",
-      title: "Mercados locales",
-      description: "Mercado de La Esperanza en Santander: anchoas, conservas, quesos y un café arriba con vistas.",
-      tag: "Domingos imprescindible"
-    }
-  ],
+    tips: [
+      "El ferry Somo–Santander cuesta ~2,80€ y es la forma más bonita de cruzar la bahía.",
+      "Reserva Cadelo y Cañadío con antelación, sobre todo en verano y fines de semana.",
+      "En los bares de pinchos, llega antes de las 13:30h: los calientes se acaban.",
+      "Casa José y La Chulilla están en el barrio pesquero — un taxi desde el centro son 10 min.",
+      "Para el Refugio Antiaéreo necesitas presentarte en el horario exacto de apertura."
+    ]
+  },
 
   // Normas de la casa
   houseRules: [
