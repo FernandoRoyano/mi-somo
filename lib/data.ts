@@ -72,7 +72,7 @@ export const apartmentData = {
     { icon: "Shield", name: "Alarma de seguridad", description: "Sistema conectado 24h" },
     { icon: "Coffee", name: "Cafetera", description: "Nespresso con cápsulas" },
     { icon: "Wind", name: "Secador de pelo", description: "En el baño" },
-    { icon: "Snowflake", name: "Aire acondicionado", description: "Frío y calor" },
+    { icon: "Flame", name: "Calefacción", description: "Central + calefactores" },
     { icon: "Tv", name: "Smart TV", description: "55\" con Netflix y apps" },
     { icon: "WashingMachine", name: "Lavadora", description: "Lavadora-secadora" },
     { icon: "ChefHat", name: "Cocina equipada", description: "Vitro, horno, microondas" },

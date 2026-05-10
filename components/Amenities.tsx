@@ -1,14 +1,14 @@
 'use client'
 
 import {
-  Wifi, Shield, Coffee, Wind, Snowflake, Tv, Car, Bed, Bath,
+  Wifi, Shield, Coffee, Wind, Flame, Tv, Car, Bed, Bath,
   Waves, ChefHat, WashingMachine, Sparkles, Clock,
   type LucideIcon,
 } from 'lucide-react'
 import { apartmentData } from '@/lib/data'
 
 const iconMap: Record<string, LucideIcon> = {
-  Wifi, Shield, Coffee, Wind, Snowflake, Tv, Car, Bed, Bath,
+  Wifi, Shield, Coffee, Wind, Flame, Tv, Car, Bed, Bath,
   Waves, ChefHat, WashingMachine,
 }
 
