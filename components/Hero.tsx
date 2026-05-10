@@ -39,7 +39,7 @@ export default function Hero() {
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full glass-dark text-white/90 text-fluid-xs">
               <Star className="w-3.5 h-3.5 fill-accent text-accent" />
-              Cuna del surf en el norte
+              Escapada para dos en Cantabria
             </span>
           </div>
 

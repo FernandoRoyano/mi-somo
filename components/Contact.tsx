@@ -191,7 +191,7 @@ ${data.message || 'Sin mensaje adicional'}
                         {...register('guests', { required: true, valueAsNumber: true })}
                         className={cn(inputClass(false, true), 'appearance-none cursor-pointer')}
                       >
-                        {[1, 2, 3, 4].map((n) => (
+                        {[1, 2].map((n) => (
                           <option key={n} value={n}>
                             {n} {n === 1 ? 'persona' : 'personas'}
                           </option>

@@ -6,11 +6,11 @@
 export const apartmentData = {
   // Información básica
   name: "Apartamento Somo",
-  tagline: "Tu refugio en la cuna del surf",
-  description: "Acogedor apartamento en Somo, Cantabria. A pocos pasos de las mejores playas de surf del norte de España. Perfecto para surfistas, familias y amantes del mar.",
+  tagline: "Una escapada para dos, frente al Cantábrico",
+  description: "Apartamento acogedor en Somo, pensado para parejas que quieran desconectar a pie de playa, descubrir Cantabria sin prisa y disfrutar de su gastronomía.",
 
   // Capacidad
-  guests: 4,
+  guests: 2,
   bedrooms: 2,
   bathrooms: 1,
 
