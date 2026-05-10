@@ -39,14 +39,14 @@ export const apartmentData = {
     seasons: [
       {
         name: "Temporada Alta",
-        dates: "15 Julio - 31 Agosto",
+        dates: "1 Julio - 31 Agosto",
         pricePerNight: 175,
         pricePerWeek: 1200,
         color: "bg-red-100 text-red-800"
       },
       {
         name: "Temporada Media",
-        dates: "1 Junio - 14 Julio, 1-30 Sept",
+        dates: "1 - 30 Junio, 1 - 30 Septiembre",
         pricePerNight: 130,
         pricePerWeek: 850,
         color: "bg-yellow-100 text-yellow-800"
